@@ -5,6 +5,9 @@ function setup(){
 
 }
 
+public class EntityPublic(){}
+
+class EntityPrivate(){}
 
 function draw() {
     background(51);
