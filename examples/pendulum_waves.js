@@ -9,6 +9,7 @@ var pendulumWave = {
     xOffset : 640, //offset, where the center line of the pendulum is
     yOffset : 0, //offset, where the first particle is
     x : 640,
+ys: 2,
     y :0,
     leastDim : 480,
     width : 640,
