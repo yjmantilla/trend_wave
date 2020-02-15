@@ -4,8 +4,7 @@ function setup() {
   background(200);
 
   // Set colors
-  fill1(204, 101, 192, 127);
-  fill2(208, 101, 192, 127);
+  fill(204, 101, 192, 127);
   stroke(127, 63, 120);
 
   // A rectangle
