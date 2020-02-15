@@ -5,7 +5,9 @@ function setup(){
 
 }
 
-public class EntityPublic(){}
+public class EntityPublic(){
+	public var 
+}
 
 class EntityPrivate(){}
 
