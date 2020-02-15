@@ -14,7 +14,6 @@ function setup() {
   translate(580, 200);
   noStroke();
   for (let i = 0; i < 10; i ++) {
-    rect(80, 30, 20, 80);
-    translate(580, 200);
+    rect(80, 2*(1+1), 20, 20);
   }
 }
