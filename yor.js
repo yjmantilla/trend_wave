@@ -1,20 +1,17 @@
-side = 20;
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
-
 }
-
-
 function draw() {
     background(51);
-
-    for (var i = 0; i < windowHeight; i += side)
+    side = 20;
+    for (var i = 0; i < 2*windowHeight; i += side)
     {
-        square(0, 20, side);
-
+    for (var j = 0; j < 2*windowWidth; j += side)
+        {
+            square(0+i, 0+j, side/2);
+        }
     }
-    
   }
 
 
