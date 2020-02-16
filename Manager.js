@@ -69,7 +69,7 @@ class Entity
     }
 
     see(array)
-    {//we should stop it from see itself, maybe in the doesAseeB function put that substraction cannot be 0?, though it would be best for each entity to know it own index
+    {//we should stop it from seeing itself, maybe in the doesAseeB function put that substraction cannot be 0?, though it would be best for each entity to know it own index
       for (var i = 0; i<array.length;i++)
       {
         if(doesAseeB(this.x,this.y,array[i].x,array[i].y,this.visualRadius))
