@@ -1,12 +1,13 @@
 let entityArray;
 var chosenOne;
+let R;
 function setup() 
 {
   entityArray = [];
   rectMode(CENTER)
   createCanvas(windowWidth, windowHeight);
   numEntities = 1000; //approximately how many entities will there be
-  side = Math.sqrt(Math.floor(windowWidth*windowHeight/numEntities));
+  side = Math.floor(Math.sqrt(windowWidth*windowHeight/numEntities));
   numLine = 10; // number of entities in a straight line of vision that an entity can see
   R = side*numLine; // Radius of vision
   counter = 0; // this is just so that each entity knows its own index
@@ -28,7 +29,6 @@ function setup()
 
   // Test the see result for one entity (the chosen one)
   chosenOne = entityArray[Math.round(Math.random(0,1)*(entityArray.length-1))]; // Do notice that in case that this produce an invalid index just use the floor function
-  colorWhoAsees(chosenOne,R,entityArray);
   console.log(chosenOne.influencers)
  
 }
@@ -40,7 +40,7 @@ function draw() {
   //entityArray.forEach(element => element.show());
   
   //Just color who the chosen one sees
-  colorWhoAsees(chosenOne,R,entityArray);
+  showSubset(entityArray,chosenOne.influencers)
   
 }
 
@@ -74,7 +74,7 @@ class Entity
     {//we should stop it from seeing itself, maybe in the doesAseeB function put that substraction cannot be 0?, though it would be best for each entity to know it own index
       for (var i = 0; i<array.length;i++)
       {
-        if(doesAseeB(this.x,this.y,array[i].x,array[i].y,this.visualRadius))
+        if(doesAseeB(this,array[i],this.visualRadius))
         {
           this.influencers.push(i);
         }  
@@ -105,13 +105,7 @@ class Entity
 
   }
 
-  function colorWhoAsees(A,R,array){
 
-    for (var i = 0; i<array.length;i++)
-    {
-      if(doesAseeB(A,array[i],R))
-      {
-        array[i].show();
-      }  
-    }
+  function showSubset(array,subset){
+    subset.forEach(index => array[index].show());
   }
