@@ -25,7 +25,7 @@ function setup()
   entityArray.forEach(element => element.see(entityArray));
 
   // Test the see result for one entity (the chosen one)
-  chosenOne = entityArray[Math.round(Math.random(0,1)*(entityArray.length-1))];
+  chosenOne = entityArray[Math.round(Math.random(0,1)*(entityArray.length-1))]; // Do notice that in case that this produce an invalid index just use the floor function
   colorWhoAsees(chosenOne,R,entityArray);
   console.log(chosenOne.influencers)
  
