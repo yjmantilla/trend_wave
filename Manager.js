@@ -1,7 +1,7 @@
 let entityArray = [];
 function setup() 
 {
-  rectMode('CENTER')
+  rectMode(CENTER)
   createCanvas(windowWidth, windowHeight);
   side = 20
   for (let row = 0; row < windowWidth; row+=side) 
