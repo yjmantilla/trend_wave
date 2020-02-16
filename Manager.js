@@ -1,10 +1,12 @@
-let entityArray = [];
+let entityArray;
 var chosenOne;
 function setup() 
 {
+  entityArray = [];
   rectMode(CENTER)
   createCanvas(windowWidth, windowHeight);
-  side = 20
+  numEntities = 1000; //approximately how many entities will there be
+  side = Math.sqrt(Math.floor(windowWidth*windowHeight/numEntities));
   numLine = 10; // number of entities in a straight line of vision that an entity can see
   R = side*numLine; // Radius of vision
   counter = 0; // this is just so that each entity knows its own index
@@ -83,7 +85,8 @@ class Entity
 
 
   function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
+    //resizeCanvas(windowWidth, windowHeight);
+    setup();
   }
 
   function doesAseeB(A,B,R){
