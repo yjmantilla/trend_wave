@@ -1,19 +1,19 @@
  <reference path="/p5.global-mode.d.ts" />
-let lasEntitys = [];
+let entityArray = [];
 
 function setup() 
 {
   createCanvas(400, 400);
   for (let i = 0; i < 10; i++) 
   {
-    lasEntitys.push(new Entity());
+    entityArray.push(new Entity());
   }
 }
 
 function draw() {
   background(100);
   
- lasEntitys.forEach(element => square(30, 20, 55))
+ entityArray.forEach(element => square(30, 20, 55))
   
   
 }
@@ -25,7 +25,7 @@ class Entity
     this.x = 20;
     this.y = 20;
     this.state =0;
-    this.Subjectivequality = random(0, 1);  
+    this.subjectiveQuality = random(0, 1);  
     }
   }  
 
