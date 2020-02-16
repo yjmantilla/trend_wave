@@ -25,13 +25,21 @@ class Entity
     {
     this.x = x;
     this.y = y;
-    this.side = 20;
-    this.state =0;
+    this.side = side;
+    this.state = 0;
     this.subjectiveQuality = random(0, 1);  
     }
   
     show(){
       square(this.x, this.y, this.side)
+      fill(255*this.judge());
+    }
+
+    // maybe create a method to determine the color (or the degree of excitation of the entity)
+
+    judge(){
+      this.state = this.subjectiveQuality*1 //include factors
+      return this.state
     }
   
   }  
