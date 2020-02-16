@@ -2,6 +2,7 @@ let entityArray = [];
 
 function setup() 
 {
+  rectMode('CENTER')
   createCanvas(400, 400);
   for (let i = 0; i < 10; i++) 
   {
@@ -19,7 +20,7 @@ function draw() {
 
 class Entity 
   {
-  constructor()
+  constructor(x,y,side)
     {
     this.x = 20;
     this.y = 20;
