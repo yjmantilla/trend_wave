@@ -1,8 +1,14 @@
 let entityArray;
 var chosenOne;
 let R;
+var counter;
+var standingThreshold = 0.8;
+var standing = [];
+var quality = Math.random(0,1);
+
 function setup() 
 {
+  frameRate(5);
   entityArray = [];
   rectMode(CENTER)
   createCanvas(windowWidth, windowHeight);
@@ -16,16 +22,15 @@ function setup()
   for (let row = 0; row < windowWidth; row+=side) 
   {
     for (let col = 0; col < windowHeight; col+=side){
-    entityArray.push(new Entity(row,col,side,R,counter));
+    entityArray.push(new Entity(row,col,side,R,counter,quality));
     counter++;
     }
   }
-
   // See how many entities we got
   console.log(entityArray.length)
 
-  // Make each entity see
-  entityArray.forEach(element => element.see(entityArray));
+  // Get influencers for each entity
+  entityArray.forEach(element => element.getInfluencers(entityArray));
 
   // Test the see result for one entity (the chosen one)
   chosenOne = entityArray[Math.round(Math.random(0,1)*(entityArray.length-1))]; // Do notice that in case that this produce an invalid index just use the floor function
@@ -34,43 +39,57 @@ function setup()
 }
 
 function draw() {
-  background(255);
+  background(0);
+
   
   // Color all of them
   //entityArray.forEach(element => element.show());
-  
+  entityArray.forEach(element => element.see(entityArray,standingThreshold,entityArray.length));
+  entityArray.forEach(element => element.judge(standingThreshold));
+  standing = getStanding(entityArray,standingThreshold);
+  showSubset(entityArray,standing)
   //Just color who the chosen one sees
-  showSubset(entityArray,chosenOne.influencers)
-  
+  //showSubset(entityArray,chosenOne.influencers)
+  //showAll(entityArray)
 }
 
 class Entity 
   {
-  constructor(x=20,y=20,side=20,R=200,index=0)
+  constructor(x=20,y=20,side=20,R=200,index=0,offset_quality = 0.5)
     {
     this.x = x;
     this.y = y;
     this.side = side;
     this.index = index;
     this.state = 0;
-    this.subjectiveQuality = Math.random(0, 1);
+    this.subjectiveQuality = offset_quality + Math.random(0, 1);
     this.influencers = [];
     this.visualRadius = R;
+    this.influenceability = Math.random(0,1);
+    this.saw = 0;
+    this.bored = 0;
     }
   
     show(){
       square(this.x, this.y, this.side)
-      fill(255*this.judge());
+      fill(255)//*this.state);
     }
 
     // maybe create a method to determine the color (or the degree of excitation of the entity)
 
-    judge(){
-      this.state = this.subjectiveQuality*1 //include factors
+    judge(standingThreshold=0.9,boringRate=0.001){
+      this.state = this.subjectiveQuality*1 + this.saw - this.bored//include factors
+      
+      if(this.state >= standingThreshold)
+      {
+      this.bored = this.bored + boringRate;
+      }
+      if(this.bored >= 1){ this.bored = 0;} //this.state < standingThreshold
       return this.state;
     }
 
-    see(array)
+
+    getInfluencers(array)
     {//we should stop it from seeing itself, maybe in the doesAseeB function put that substraction cannot be 0?, though it would be best for each entity to know it own index
       for (var i = 0; i<array.length;i++)
       {
@@ -80,8 +99,21 @@ class Entity
         }  
       }
     }
-  
-  }  
+
+    see(array,standingThreshold,total_entities)
+    {
+      let accum = 0;
+      for (var i = 0; i<this.influencers.length;i++)
+      {
+        if (array[this.influencers[i]].saw > standingThreshold)
+        {
+          accum = accum + 1;
+        }
+      }
+      this.saw = accum/total_entities;
+      return this.saw;
+    }
+  }
 
 
   function windowResized() {
@@ -105,7 +137,49 @@ class Entity
 
   }
 
+  function getStanding(array,standingThreshold)
+  {
+    standing = [];
+    for (var i = 0; i<array.length;i++)
+    {
+      if(array[i].state >= standingThreshold)
+      {
+        standing.push(i);
+      }
+    }
+    return standing;
+  }
+
 
   function showSubset(array,subset){
     subset.forEach(index => array[index].show());
   }
+
+  function showAll(array){
+    subset = range(0,array.length,1);
+    showSubset(array,subset);
+  }
+
+  function range(start, stop, step) {
+  // from https://stackoverflow.com/questions/8273047/javascript-function-similar-to-python-range
+    if (typeof stop == 'undefined') {
+        // one param defined
+        stop = start;
+        start = 0;
+    }
+
+    if (typeof step == 'undefined') {
+        step = 1;
+    }
+
+    if ((step > 0 && start >= stop) || (step < 0 && start <= stop)) {
+        return [];
+    }
+
+    var result = [];
+    for (var i = start; step > 0 ? i < stop : i > stop; i += step) {
+        result.push(i);
+    }
+
+    return result;
+};
